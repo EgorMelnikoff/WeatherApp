@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/units_of_meansurement">
+        <ListPreference
+            android:key="temperature"
+            android:title="@string/temperature"
+            android:dialogIcon="@drawable/temperature"
+            android:icon="@drawable/temperature"
+            android:entries="@array/temperature_entries"
+            android:entryValues="@array/temperature_values"
+            android:defaultValue="celsius" />
+        <ListPreference
+            android:key="wind"
+            android:title="@string/wind_power"
+            android:dialogIcon="@drawable/wind"
+            android:icon="@drawable/wind"
+            android:entries="@array/wind_entries"
+            android:entryValues="@array/wind_values"
+            android:defaultValue="meters_per_second" />
+        <ListPreference
+            android:key="pressure"
+            android:title="@string/pressure"
+            android:dialogIcon="@drawable/pressure"
+            android:icon="@drawable/pressure"
+            android:entries="@array/pressure_entries"
+            android:entryValues="@array/pressure_values"
+            android:defaultValue="hPa"/>
+
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/basic_settings">
+        <ListPreference
+            android:key="default_location"
+            android:title="@string/default_location"
+            android:dialogIcon="@drawable/location"
+            android:icon="@drawable/location"
+            android:defaultValue="not_selected" />
+        <SwitchPreference
+            android:key="notifications"
+            android:title="@string/receive_notifications"
+            android:icon="@drawable/notifications"
+            android:singleLineTitle="true"
+            android:selectable="false"
+            android:summary="@string/get_notification"
+            android:defaultValue="false"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/appearance_settings">
+        <ListPreference
+            android:key="theme"
+            android:title="@string/theme"
+            android:dialogIcon="@drawable/theme"
+            android:icon="@drawable/theme"
+            android:summary="@string/theme_change"
+            android:entries="@array/theme_entries"
+            android:entryValues="@array/theme_values"
+            android:defaultValue="system" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

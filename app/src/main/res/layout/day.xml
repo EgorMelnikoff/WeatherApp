@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/day"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="60dp"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="8dp"
+    android:gravity="center_vertical"
+    android:background="@drawable/day_background">
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/day_date"
+            android:textColor="@color/onSurface"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/day_name"
+            android:textColor="@color/onBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/day_weather_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@null"
+        android:adjustViewBounds="true"
+        android:maxWidth="30dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/freezing_rain" />
+
+    <TextView
+        android:id="@+id/day_temperature_2m_max"
+        android:textColor="@color/onBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:minWidth="60dp"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/day_temperature_2m_min"
+        android:textColor="@color/onSurface"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:minWidth="35dp"
+        android:textSize="15sp" />
+</LinearLayout>

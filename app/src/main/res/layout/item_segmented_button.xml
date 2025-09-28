@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="8dp"
+        android:text="@string/wind"
+        android:textColor="@color/onBackground"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="12dp" />
+
+    <RadioGroup
+        android:id="@+id/segmented_button_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/segmented_button_background"
+        android:checkedButton="@id/button_one"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/button_one"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/segmented_button_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="Опция 1"
+            android:textSize="12sp"
+            android:textColor="@drawable/segmented_button_text_color" />
+
+        <RadioButton
+            android:id="@+id/button_two"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/segmented_button_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="Опция 2"
+            android:textColor="@drawable/segmented_button_text_color" />
+
+        <RadioButton
+            android:id="@+id/button_three"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/segmented_button_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="Опция 3"
+            android:textColor="@drawable/segmented_button_text_color" />
+    </RadioGroup>
+
+</LinearLayout>

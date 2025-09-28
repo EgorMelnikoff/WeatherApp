@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="theme_entries">
+        <item>@string/light</item>
+        <item>@string/dark</item>
+        <item>@string/system</item>
+    </string-array>
+    <string-array name="theme_values">
+        <item>light</item>
+        <item>dark</item>
+        <item>system</item>
+    </string-array>
+
+
+    <string-array name="temperature_entries">
+        <item>@string/celsius</item>
+        <item>@string/fahrenheit</item>
+    </string-array>
+    <string-array name="temperature_values">
+        <item>celsius</item>
+        <item>fahrenheit</item>
+    </string-array>
+
+
+    <string-array name="wind_entries">
+        <item>@string/meters_per_second</item>
+        <item>@string/kilometers_per_hour</item>
+        <item>@string/miles_per_hour</item>
+    </string-array>
+    <string-array name="wind_values">
+        <item>meters_per_second</item>
+        <item>kilometers_per_hour</item>
+        <item>miles_per_hour</item>
+    </string-array>
+
+    <string-array name="pressure_entries">
+        <item>@string/mm_of_mercury</item>
+        <item>@string/hPa</item>
+    </string-array>
+    <string-array name="pressure_values">
+        <item>mm_of_mercury</item>
+        <item>hPa</item>
+    </string-array>
+</resources>

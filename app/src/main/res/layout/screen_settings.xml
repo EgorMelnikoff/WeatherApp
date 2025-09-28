@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/AppBarLayout"
+        style="@style/AppBarLayoutBase"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/MaterialToolbarBase"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/back"
+            app:title="@string/settings"
+            app:titleCentered="true" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/panel_background"
+                android:padding="16dp">
+
+                <com.egormelnikoff.myweather.ui.view.SegmentedButtonView
+                    android:id="@+id/theme_preference"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/theme_entries"
+                    android:entryValues="@array/theme_values"
+                    android:icon="@drawable/theme"
+                    android:title="@string/theme" />
+            </FrameLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="16dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/panel_background"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <com.egormelnikoff.myweather.ui.view.SegmentedButtonView
+                    android:id="@+id/temperature_preference"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/temperature_entries"
+                    android:entryValues="@array/temperature_values"
+                    android:icon="@drawable/temperature"
+                    android:title="@string/temperature" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" />
+
+                <com.egormelnikoff.myweather.ui.view.SegmentedButtonView
+                    android:id="@+id/wind_preference"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/wind_entries"
+                    android:entryValues="@array/wind_values"
+                    android:icon="@drawable/wind"
+                    android:title="@string/wind" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" />
+
+                <com.egormelnikoff.myweather.ui.view.SegmentedButtonView
+                    android:id="@+id/pressure_preference"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/pressure_entries"
+                    android:entryValues="@array/pressure_values"
+                    android:icon="@drawable/pressure"
+                    android:title="@string/pressure" />
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="16dp" />
+
+            <LinearLayout
+                android:id="@+id/location_preference"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/panel_background"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <com.egormelnikoff.myweather.ui.view.ClickableItem
+                    android:id="@+id/default_location_preference"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:icon="@drawable/location"
+                    android:title="@string/default_location"
+                    app:value="" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" />
+
+                <com.egormelnikoff.myweather.ui.view.SwitchItem
+                    android:id="@+id/notifications_preference"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:title="@string/notifications"
+                    android:icon="@drawable/notifications" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

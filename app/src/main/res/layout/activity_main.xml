@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/places_list_screen"
+        layout="@layout/screen_places_list" />
+
+    <include
+        android:id="@+id/place_weather_screen"
+        layout="@layout/screen_place_weather"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/settings_screen"
+        layout="@layout/screen_settings"
+        android:visibility="gone" />
+</FrameLayout>

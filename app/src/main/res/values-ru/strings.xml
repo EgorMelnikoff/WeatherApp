@@ -1,0 +1,102 @@
+<resources>
+    <!-- Базовое -->
+    <string name="app_name">Погода</string>
+    <string name="settings">Настройки</string>
+    <string name="error">Ошибка</string>
+    <string name="my_location">Моё местоположение</string>
+    <string name="favorites">Избранное</string>
+    <string name="feels_like">ощущается как</string>
+    <string name="now">Сейчас</string>
+    <string name="today">Сегодня</string>
+    <string name="forecast_today">Прогноз по часам</string>
+    <string name="forecast_week">Прогноз на неделю</string>
+    <string name="current_location">Текущее местоположение</string>
+    <string name="use_current_location">Использовать текущее местоположение</string>
+    <string name="add_location">Добавить местоположение</string>
+    <string name="add_error">Место уже сохранено</string>
+    <string name="place_name">Название места</string>
+    <string-array name="days_of_week">
+        <item>Понедельник</item>
+        <item>Вторник</item>
+        <item>Среда</item>
+        <item>Четверг</item>
+        <item>Пятница</item>
+        <item>Суббота</item>
+        <item>Воскресенье</item>
+    </string-array>
+
+    <!-- Настройки -->
+    <string name="basic_settings">Основные</string>
+    <string name="appearance_settings">Внешний вид</string>
+    <string name="theme">Стиль оформления</string>
+    <string name="select_theme">Выберите стиль оформления</string>
+    <string name="select_units_of_meansurement">Выберите единицы измерения</string>
+    <string name="light">Светлый</string>
+    <string name="dark">Темный</string>
+    <string name="system">Системный</string>
+    <string name="notifications">Уведомления</string>
+    <string name="receive_notifications">Получать уведомления</string>
+    <string name="get_notification">Получать уведомления с прогнозом погоды на завтра</string>
+    <string name="default_location">Основное местоположение</string>
+    <string name="units_of_meansurement">Единицы измерения</string>
+    <string name="not_selected">Не выбрано</string>
+    <string name="no_saved_places">Отсутствуют сохраненные места</string>
+    <string name="theme_change">Для смены темы потребуется перезагрузка</string>
+
+    <!-- Погодные параметры -->
+    <string name="temperature">Температура</string>
+    <string name="daylight_hours">Световой день</string>
+    <string name="sunrise">Восход</string>
+    <string name="sunset">Закат</string>
+    <string name="wind">Ветер</string>
+    <string name="precipitation">Осадки</string>
+    <string name="humidity">Влажность</string>
+    <string name="wind_power">Скорость ветра</string>
+    <string name="pressure">Давление</string>
+    <string-array name="cardinal_directions">
+        <item>С</item>
+        <item>СВ</item>
+        <item>В</item>
+        <item>ЮВ</item>
+        <item>Ю</item>
+        <item>ЮЗ</item>
+        <item>З</item>
+        <item>СЗ</item>
+    </string-array>
+
+    <!-- Единицы измерения -->
+    <string name="celsius">По Цельсию (C°)</string>
+    <string name="fahrenheit">По Фаренгейту (F°)</string>
+    <string name="millimeters">мм</string>
+    <string name="meters_per_second">м/с</string>
+    <string name="kilometers_per_hour">км/ч</string>
+    <string name="miles_per_hour">миль/ч</string>
+    <string name="mm_of_mercury">мм рт. ст.</string>
+    <string name="hPa">гПа</string>
+    <string name="clear_sky">Ясно</string>
+    <string name="mostly_clear_sky">Преимущественно ясно</string>
+    <string name="partly_cloudy">Переменная облачность</string>
+    <string name="overcast">Пасмурно</string>
+    <string name="fog">Туман</string>
+    <string name="light_drizzle">Легкая морось</string>
+    <string name="drizzle">Морось</string>
+    <string name="heavy_drizzle">Сильная морось</string>
+    <string name="freezing_drizzle">Замерзающая морось</string>
+    <string name="light_rain">Легкий дождь</string>
+    <string name="rain">Дождь</string>
+    <string name="heavy_rain">Сильный дождь</string>
+    <string name="freezing_rain">Замерзающий дождь</string>
+    <string name="light_snow">Легкий снег</string>
+    <string name="snow">Снег</string>
+    <string name="heavy_snow">Сильный снег</string>
+    <string name="snow_grains">Снежные зерна</string>
+    <string name="light_rain_shower">Легкий ливень</string>
+    <string name="rain_shower">Ливень</string>
+    <string name="heavy_rain_shower">Сильный ливень</string>
+    <string name="snow_shower">Метель</string>
+    <string name="heavy_snow_shower">Сильная метель</string>
+    <string name="thunderstorm">Гроза</string>
+    <string name="hail">Град</string>
+    <string name="heavy_hail">Cильный град</string>
+    <string name="unknown">Неизвестно</string>
+</resources>

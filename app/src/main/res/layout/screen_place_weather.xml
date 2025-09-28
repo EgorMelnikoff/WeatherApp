@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/place_weather"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/AppBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        app:liftOnScroll="false"
+        app:statusBarForeground="@android:color/transparent">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            app:navigationIcon="@drawable/back"
+            app:navigationIconTint="@android:color/white"
+            app:titleCentered="true"
+            app:titleTextColor="@android:color/white" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/loading_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="32dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/message_image"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:contentDescription="@null" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
+
+            <TextView
+                android:id="@+id/message_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/scroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/current_weather_temperature"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/white"
+                            android:maxLines="1"
+                            android:textSize="120sp"
+                            android:textStyle="bold" />
+
+                        <Space
+                            android:layout_width="16dp"
+                            android:layout_height="wrap_content" />
+
+                        <ImageView
+                            android:id="@+id/current_weather_image"
+                            android:layout_width="wrap_content"
+                            android:layout_height="52dp"
+                            android:adjustViewBounds="true"
+                            android:contentDescription="@null" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/current_weather_apparent_temperature"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/white"
+                        android:maxLines="1"
+                        android:textAlignment="center"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="16dp"
+                        android:textColor="@android:color/white"
+                        android:maxLines="1"
+                        android:text="@string/forecast_today"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/hourly_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:clipToPadding="true" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="16dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/white"
+                        android:paddingHorizontal="16dp"
+                        android:maxLines="1"
+                        android:text="@string/forecast_week"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/daily_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="16dp"
+                        android:layout_marginTop="12dp"
+                        android:clipToPadding="true" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp" />
+
+                    <LinearLayout
+                        android:id="@+id/grid_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="16dp"
+                        android:orientation="vertical">
+                        <include
+                            android:id="@+id/wind"
+                            android:paddingHorizontal="16dp"
+                            layout="@layout/weather_param" />
+
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="4dp" />
+
+                        <include
+                            android:id="@+id/surface_pressure"
+                            android:paddingHorizontal="16dp"
+                            layout="@layout/weather_param" />
+
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="4dp" />
+
+                        <include
+                            android:id="@+id/relative_humidity"
+                            android:paddingHorizontal="16dp"
+                            layout="@layout/weather_param" />
+                    </LinearLayout>
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="16dp"/>
+                    <TextView
+                        android:id="@+id/weather_link"
+                        android:layout_width="match_parent"
+                        android:textAlignment="center"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/white"
+                        android:maxLines="1"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
