@@ -559,8 +559,7 @@ class MainActivity : AppCompatActivity() {
             hourlyWeather = weather.hourly,
             sunrise = weather.daily.dailySunrise.first(),
             sunset = weather.daily.dailySunset.first(),
-            temperature = appSettings.temperature,
-            context = this
+            temperature = appSettings.temperature
         )
         binding.placeWeatherScreen.hourlyRecyclerView.adapter = adapter
         binding.placeWeatherScreen.hourlyRecyclerView.layoutManager =
