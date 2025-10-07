@@ -15,14 +15,14 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.egormelnikoff.myweather.R
 import com.egormelnikoff.myweather.model.PlaceWeather
-import com.egormelnikoff.myweather.model.WeatherParams
+import com.egormelnikoff.myweather.model.WeatherCodes
 import com.egormelnikoff.myweather.ui.view_model.WeatherViewModel
 import kotlin.math.round
 
 
 class SavedPlacesAdapter(
+    private val weatherCodes: WeatherCodes,
     private val placesWeather: MutableList<PlaceWeather>,
-    private val context: Context,
     private val temperature: String?,
     private val onClick: (PlaceWeather) -> Unit
 ) : RecyclerView.Adapter<SavedPlacesAdapter.LocationViewHolder>() {
@@ -34,12 +34,11 @@ class SavedPlacesAdapter(
         private val placeTemperature2m: TextView = itemView.findViewById(R.id.temperature)
 
         @SuppressLint("SetTextI18n")
-        fun bind(placeWeather: PlaceWeather, context: Context, onClick: (PlaceWeather) -> Unit) {
+        fun bind(placeWeather: PlaceWeather, onClick: (PlaceWeather) -> Unit) {
             itemView.setOnClickListener {
                 onClick(placeWeather)
             }
-            val weatherData =
-                WeatherParams(context).weathersMap[placeWeather.weather?.current?.weatherCode]
+            val weatherData = weatherCodes.getWeatherDataByWeatherCode(placeWeather.weather!!.current.weatherCode)
 
             placeName.text = placeWeather.place.name
 
@@ -70,7 +69,7 @@ class SavedPlacesAdapter(
     }
 
     override fun onBindViewHolder(holder: LocationViewHolder, position: Int) {
-        holder.bind(placesWeather[position], context, onClick)
+        holder.bind(placesWeather[position], onClick)
     }
 
     override fun getItemCount(): Int = placesWeather.size

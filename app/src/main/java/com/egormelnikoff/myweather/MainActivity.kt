@@ -25,14 +25,12 @@ import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
 import com.egormelnikoff.myweather.data.repos.datastore.AppSettings
 import com.egormelnikoff.myweather.databinding.ActivityMainBinding
 import com.egormelnikoff.myweather.model.Place
 import com.egormelnikoff.myweather.model.PlaceWeather
 import com.egormelnikoff.myweather.model.Weather
-import com.egormelnikoff.myweather.model.WeatherParams
+import com.egormelnikoff.myweather.model.WeatherCodes
 import com.egormelnikoff.myweather.ui.adapter.CustomItemDecoration
 import com.egormelnikoff.myweather.ui.adapter.DailyAdapter
 import com.egormelnikoff.myweather.ui.adapter.HourlyAdapter
@@ -43,30 +41,29 @@ import com.egormelnikoff.myweather.ui.view_model.CurrentWeatherState
 import com.egormelnikoff.myweather.ui.view_model.SearchState
 import com.egormelnikoff.myweather.ui.view_model.WeatherViewModel
 import kotlinx.coroutines.launch
-import java.util.Calendar
-import java.util.concurrent.TimeUnit
 import kotlin.math.round
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var weatherCodes: WeatherCodes
     private lateinit var binding: ActivityMainBinding
-
     private val viewModel: WeatherViewModel by viewModels { WeatherViewModel.Factory }
-    private lateinit var requestLocationPermissionLauncher: ActivityResultLauncher<Array<String>>
 
+    private lateinit var requestLocationPermissionLauncher: ActivityResultLauncher<Array<String>>
     private lateinit var savedPlacesAdapter: SavedPlacesAdapter
     private var placesWeather = mutableListOf<PlaceWeather>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        weatherCodes = WeatherCodes(this)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        scheduleDailyWork()
+        //scheduleDailyWork()
         setupViews()
         setupListeners()
 
-        viewModel.updatePlacesWeather (
+        viewModel.updatePlacesWeather(
             onRefreshed = {
                 binding.placesListScreen.swipeRefreshLayout.isRefreshing = false
                 binding.placeWeatherScreen.swipeRefreshLayout.isRefreshing = false
@@ -74,7 +71,7 @@ class MainActivity : AppCompatActivity() {
         )
         lifecycleScope.launch {
             viewModel.appSettings.collect { settings ->
-                setupAdapters(settings)
+                setupAdapters(settings, weatherCodes)
                 setupObservers(settings)
             }
         }
@@ -104,18 +101,34 @@ class MainActivity : AppCompatActivity() {
         binding.placeWeatherScreen.dailyRecyclerView.addItemDecoration(dailyItemDecoration)
 
         binding.placeWeatherScreen.wind.header.text = getString(R.string.wind)
-        binding.placeWeatherScreen.wind.header.setCompoundDrawablesWithIntrinsicBounds(R.drawable.wind, 0, 0, 0)
+        binding.placeWeatherScreen.wind.header.setCompoundDrawablesWithIntrinsicBounds(
+            R.drawable.wind,
+            0,
+            0,
+            0
+        )
 
         binding.placeWeatherScreen.surfacePressure.header.text = getString(R.string.pressure)
-        binding.placeWeatherScreen.surfacePressure.header.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pressure, 0, 0, 0)
+        binding.placeWeatherScreen.surfacePressure.header.setCompoundDrawablesWithIntrinsicBounds(
+            R.drawable.pressure,
+            0,
+            0,
+            0
+        )
 
         binding.placeWeatherScreen.relativeHumidity.header.text = getString(R.string.humidity)
-        binding.placeWeatherScreen.relativeHumidity.header.setCompoundDrawablesWithIntrinsicBounds(R.drawable.humidity, 0, 0, 0)
+        binding.placeWeatherScreen.relativeHumidity.header.setCompoundDrawablesWithIntrinsicBounds(
+            R.drawable.humidity,
+            0,
+            0,
+            0
+        )
 
         val text =
             "<a href=\"https://open-meteo.com/\">Open Meteo</a> · <a href=\"https://nominatim.org/\">Nominatim</a>\n"
         binding.placeWeatherScreen.weatherLink.movementMethod = LinkMovementMethod.getInstance()
-        binding.placeWeatherScreen.weatherLink.text = Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT)
+        binding.placeWeatherScreen.weatherLink.text =
+            Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT)
 
 
         requestLocationPermissionLauncher = registerForActivityResult(
@@ -167,7 +180,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.placesListScreen.swipeRefreshLayout.setOnRefreshListener {
-            viewModel.updatePlacesWeather (
+            viewModel.updatePlacesWeather(
                 onRefreshed = {
                     binding.placesListScreen.swipeRefreshLayout.isRefreshing = false
                 }
@@ -189,7 +202,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.placeWeatherScreen.swipeRefreshLayout.setOnRefreshListener {
-            viewModel.updatePlacesWeather (
+            viewModel.updatePlacesWeather(
                 onRefreshed = {
                     binding.placeWeatherScreen.swipeRefreshLayout.isRefreshing = false
                 }
@@ -228,7 +241,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupAdapters(appSettings: AppSettings) {
+    private fun setupAdapters(
+        appSettings: AppSettings,
+        weatherCodes: WeatherCodes
+    ) {
         binding.settingsScreen.themePreference.selectedValue = appSettings.theme
         binding.settingsScreen.temperaturePreference.selectedValue = appSettings.temperature
         binding.settingsScreen.windPreference.selectedValue = appSettings.wind
@@ -236,17 +252,19 @@ class MainActivity : AppCompatActivity() {
         binding.settingsScreen.notificationsPreference.selectedValue = appSettings.notifications
 
         savedPlacesAdapter = SavedPlacesAdapter(
+            weatherCodes = weatherCodes,
             onClick = { placeWeather ->
                 viewModel.setPlaceWeather(placeWeather)
                 binding.placeWeatherScreen.toolbar.title = placeWeather.place.name
                 openScreen(binding.placeWeatherScreen.root)
             },
             placesWeather = placesWeather,
-            temperature = appSettings.temperature,
-            context = this
+            temperature = appSettings.temperature
         )
+
         binding.placesListScreen.savedPlaces.adapter = savedPlacesAdapter
         binding.placesListScreen.savedPlaces.layoutManager = LinearLayoutManager(this)
+
         val itemTouchHelper =
             ItemTouchHelper(
                 MyItemTouchHelperCallback(
@@ -271,7 +289,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 is SearchState.Loading -> {
-                    binding.placesListScreen. searchMessageIcon.visibility = View.GONE
+                    binding.placesListScreen.searchMessageIcon.visibility = View.GONE
                     binding.placesListScreen.searchMessage.visibility = View.GONE
                     binding.placesListScreen.searchPlaces.visibility = View.GONE
                     binding.placesListScreen.searchLoadingIndicator.visibility = View.VISIBLE
@@ -289,7 +307,8 @@ class MainActivity : AppCompatActivity() {
                     binding.placesListScreen.searchPlaces.visibility = View.GONE
                     binding.placesListScreen.searchLoadingIndicator.visibility = View.GONE
                     binding.placesListScreen.searchMessageIcon.visibility = View.GONE
-                    binding.placesListScreen.searchMessageText.text = StringBuilder("Ошибка\n${stateSearch.message}")
+                    binding.placesListScreen.searchMessageText.text =
+                        StringBuilder("Ошибка\n${stateSearch.message}")
                     binding.placesListScreen.searchMessage.visibility = View.VISIBLE
                 }
 
@@ -328,7 +347,11 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.statePlaces.observe(this) { statePlaces ->
             if (statePlaces.currentLocationWeather != null) {
-                outputCurrentLocationWeather(appSettings.temperature, statePlaces.currentLocationWeather)
+                outputCurrentLocationWeather(
+                    appSettings.temperature,
+                    statePlaces.currentLocationWeather,
+                    weatherCodes
+                )
             }
 
             val defaultLocation = statePlaces.placesWeather.find { it.isDefault }
@@ -363,7 +386,8 @@ class MainActivity : AppCompatActivity() {
                 is CurrentWeatherState.Error -> {
                     binding.placeWeatherScreen.loadingIndicator.visibility = View.GONE
                     binding.placeWeatherScreen.swipeRefreshLayout.visibility = View.GONE
-                    binding.placeWeatherScreen.messageText.text = StringBuilder("Ошибка\n${stateWeather.message}")
+                    binding.placeWeatherScreen.messageText.text =
+                        StringBuilder("Ошибка\n${stateWeather.message}")
                     binding.placeWeatherScreen.message.visibility = View.VISIBLE
                 }
 
@@ -377,7 +401,11 @@ class MainActivity : AppCompatActivity() {
                     binding.placeWeatherScreen.message.visibility = View.GONE
                     binding.placeWeatherScreen.loadingIndicator.visibility = View.GONE
                     binding.placeWeatherScreen.swipeRefreshLayout.visibility = View.VISIBLE
-                    outputWeather(stateWeather.placeWeather, appSettings)
+
+                    outputWeather(
+                        appSettings = appSettings,
+                        placeWeather = stateWeather.placeWeather
+                    )
                     binding.placeWeatherScreen.swipeRefreshLayout.visibility = View.VISIBLE
                 }
             }
@@ -386,9 +414,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun outputCurrentLocationWeather(temperature: String?, placeWeather: PlaceWeather) {
-        val weatherParam =
-            WeatherParams(this).weathersMap[placeWeather.weather!!.current.weatherCode]!!
+    private fun outputCurrentLocationWeather(
+        temperature: String?,
+        placeWeather: PlaceWeather,
+        weatherCodes: WeatherCodes
+    ) {
+        val weatherData =
+            weatherCodes.getWeatherDataByWeatherCode(placeWeather.weather!!.current.weatherCode)!!
+
 
         val placeName = placeWeather.place.name
         binding.placesListScreen.currentLocationWeather.name.text = if (placeName.isNullOrEmpty()) {
@@ -402,32 +435,49 @@ class MainActivity : AppCompatActivity() {
                 "${round(placeWeather.weather!!.current.temperature).toInt()}°"
         } else {
             binding.placesListScreen.currentLocationWeather.temperature.text =
-                "${((round(placeWeather.weather!!.current.temperature).toInt()) * 9/5) + 32}°"
+                "${((round(placeWeather.weather!!.current.temperature).toInt()) * 9 / 5) + 32}°"
         }
 
-        binding.placesListScreen.currentLocationWeather.situation.text = weatherParam.title
+        binding.placesListScreen.currentLocationWeather.situation.text = weatherData.title
         if (placeWeather.weather!!.current.isDay == 1) {
-            binding.placesListScreen.currentLocationWeather.root.setBackgroundResource(weatherParam.dayBackground)
-            binding.placesListScreen.currentLocationWeather.weatherImage.setImageResource(weatherParam.dayImage)
-        } else {
-            binding.placesListScreen.currentLocationWeather.root.setBackgroundResource(weatherParam.nightBackground)
+            binding.placesListScreen.currentLocationWeather.root.setBackgroundResource(weatherData.dayBackground)
             binding.placesListScreen.currentLocationWeather.weatherImage.setImageResource(
-                weatherParam.nightImage ?: weatherParam.dayImage
+                weatherData.dayImage
+            )
+        } else {
+            binding.placesListScreen.currentLocationWeather.root.setBackgroundResource(weatherData.nightBackground)
+            binding.placesListScreen.currentLocationWeather.weatherImage.setImageResource(
+                weatherData.nightImage ?: weatherData.dayImage
             )
         }
 
     }
 
-    private fun outputWeather(placeWeather: PlaceWeather, appSettings: AppSettings) {
-        outputCurrentWeather(placeWeather, appSettings)
-        outputHourlyWeather(placeWeather.weather!!, appSettings)
-        outputDailyWeather(placeWeather.weather!!, appSettings)
+    private fun outputWeather(
+        placeWeather: PlaceWeather,
+        appSettings: AppSettings
+    ) {
+        outputCurrentWeather(
+            placeWeather = placeWeather,
+            appSettings = appSettings
+        )
+        outputHourlyWeather(
+            appSettings = appSettings,
+            weather = placeWeather.weather!!
+        )
+        outputDailyWeather(
+            appSettings = appSettings,
+            weather = placeWeather.weather!!
+        )
     }
 
     @SuppressLint("SetTextI18n")
-    private fun outputCurrentWeather(placeWeather: PlaceWeather, appSettings: AppSettings) {
+    private fun outputCurrentWeather(
+        appSettings: AppSettings,
+        placeWeather: PlaceWeather
+    ) {
         val weatherData =
-            WeatherParams(this).weathersMap[placeWeather.weather!!.current.weatherCode]!!
+            weatherCodes.getWeatherDataByWeatherCode(placeWeather.weather!!.current.weatherCode)!!
 
         val placeName = placeWeather.place.name
         val title = if (placeName.isNullOrEmpty()) {
@@ -463,7 +513,9 @@ class MainActivity : AppCompatActivity() {
 
             else -> {
                 binding.placeWeatherScreen.root.setBackgroundResource(weatherData.nightBackground)
-                binding.placeWeatherScreen.currentWeatherImage.setImageResource(weatherData.nightImage ?: weatherData.dayImage)
+                binding.placeWeatherScreen.currentWeatherImage.setImageResource(
+                    weatherData.nightImage ?: weatherData.dayImage
+                )
             }
         }
         val windDirection = defineWindDirection(
@@ -483,35 +535,54 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.placeWeatherScreen.surfacePressure.value.text = if (appSettings.surfacePressure == "hPa") {
-            "${placeWeather.weather!!.current.surfacePressure} ${getString(R.string.hPa)}"
-        } else {
-            "${round(placeWeather.weather!!.current.surfacePressure * 3 / 4).toInt()} ${getString(R.string.mm_of_mercury)}"
-        }
+        binding.placeWeatherScreen.surfacePressure.value.text =
+            if (appSettings.surfacePressure == "hPa") {
+                "${placeWeather.weather!!.current.surfacePressure} ${getString(R.string.hPa)}"
+            } else {
+                "${round(placeWeather.weather!!.current.surfacePressure * 3 / 4).toInt()} ${
+                    getString(
+                        R.string.mm_of_mercury
+                    )
+                }"
+            }
 
-        binding.placeWeatherScreen.relativeHumidity.value.text = "${placeWeather.weather!!.current.relativeHumidity} %"
+        binding.placeWeatherScreen.relativeHumidity.value.text =
+            "${placeWeather.weather!!.current.relativeHumidity} %"
     }
 
-    private fun outputHourlyWeather(weather: Weather, appSettings: AppSettings) {
+    private fun outputHourlyWeather(
+        appSettings: AppSettings,
+        weather: Weather
+    ) {
         val adapter = HourlyAdapter(
-            weather.hourly,
-            weather.daily.dailySunrise.first(),
-            weather.daily.dailySunset.first(),
-            appSettings.temperature,
-            this
+            weatherCodes = weatherCodes,
+            hourlyWeather = weather.hourly,
+            sunrise = weather.daily.dailySunrise.first(),
+            sunset = weather.daily.dailySunset.first(),
+            temperature = appSettings.temperature,
+            context = this
         )
         binding.placeWeatherScreen.hourlyRecyclerView.adapter = adapter
         binding.placeWeatherScreen.hourlyRecyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
     }
 
-    private fun outputDailyWeather(weather: Weather, appSettings: AppSettings) {
-        val adapter = DailyAdapter(weather.daily, appSettings.temperature, this)
+    private fun outputDailyWeather(
+        appSettings: AppSettings,
+        weather: Weather
+    ) {
+        val adapter = DailyAdapter(
+            weatherCodes = weatherCodes,
+            dailyWeather = weather.daily,
+            temperature = appSettings.temperature,
+            context = this
+        )
         binding.placeWeatherScreen.dailyRecyclerView.adapter = adapter
-        binding.placeWeatherScreen.dailyRecyclerView.layoutManager = object : LinearLayoutManager(this) {
-            override fun canScrollVertically(): Boolean = false
-            override fun canScrollHorizontally(): Boolean = false
-        }
+        binding.placeWeatherScreen.dailyRecyclerView.layoutManager =
+            object : LinearLayoutManager(this) {
+                override fun canScrollVertically(): Boolean = false
+                override fun canScrollHorizontally(): Boolean = false
+            }
     }
 
     private fun openScreen(view: View) {
@@ -574,28 +645,34 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkLocationPermission(): Boolean {
-        return (ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+        return (ContextCompat.checkSelfPermission(
+            this,
+            ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(
+                    this,
+                    ACCESS_COARSE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED)
     }
 
-    private fun scheduleDailyWork() {
-        //val currentDate = Calendar.getInstance()
-        val dueDate = Calendar.getInstance()
-
-        dueDate.set(Calendar.HOUR_OF_DAY, 0)
-        dueDate.set(Calendar.MINUTE, 58)
-        dueDate.set(Calendar.SECOND, 0)
-
-//        if (dueDate.before(currentDate)) {
-//            dueDate.add(Calendar.DAY_OF_MONTH, 1)
-//        }
-
-        //val delay = dueDate.timeInMillis - currentDate.timeInMillis
-        val dailyWorkRequest = OneTimeWorkRequestBuilder<DailyWorker>()
-            .setInitialDelay(0, TimeUnit.MILLISECONDS)
-            .build()
-
-        WorkManager.getInstance(applicationContext)
-            .enqueue(dailyWorkRequest)
-    }
+//    private fun scheduleDailyWork() {
+//        //val currentDate = Calendar.getInstance()
+//        val dueDate = Calendar.getInstance()
+//
+//        dueDate.set(Calendar.HOUR_OF_DAY, 0)
+//        dueDate.set(Calendar.MINUTE, 58)
+//        dueDate.set(Calendar.SECOND, 0)
+//
+////        if (dueDate.before(currentDate)) {
+////            dueDate.add(Calendar.DAY_OF_MONTH, 1)
+////        }
+//
+//        //val delay = dueDate.timeInMillis - currentDate.timeInMillis
+//        val dailyWorkRequest = OneTimeWorkRequestBuilder<DailyWorker>()
+//            .setInitialDelay(0, TimeUnit.MILLISECONDS)
+//            .build()
+//
+//        WorkManager.getInstance(applicationContext)
+//            .enqueue(dailyWorkRequest)
+//    }
 }

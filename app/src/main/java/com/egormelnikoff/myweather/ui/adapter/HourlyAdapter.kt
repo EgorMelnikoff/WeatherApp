@@ -10,22 +10,21 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.egormelnikoff.myweather.R
 import com.egormelnikoff.myweather.model.HourlyWeather
-import com.egormelnikoff.myweather.model.WeatherParams
+import com.egormelnikoff.myweather.model.WeatherCodes
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.round
 
 class HourlyAdapter(
+    private val weatherCodes: WeatherCodes,
     private val hourlyWeather: HourlyWeather,
     private val sunrise: String,
     private val sunset: String,
-    private val temperature: String?,
-    private val context: Context
+    private val temperature: String?
 ) : RecyclerView.Adapter<HourlyAdapter.HourlyWeatherViewHolder>() {
 
     inner class HourlyWeatherViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val formatter = DateTimeFormatter.ISO_DATE_TIME
-        private val weatherMap = WeatherParams(context).weathersMap
 
         private val hourTime: TextView = itemView.findViewById(R.id.hour_time)
         private val hourWeatherImage: ImageView = itemView.findViewById(R.id.hour_weather_image)
@@ -35,7 +34,7 @@ class HourlyAdapter(
         fun bind(
             position: Int
         ) {
-            val weatherData = weatherMap[hourlyWeather.hourlyWeatherCode[position]]!!
+            val weatherData = weatherCodes.getWeatherDataByWeatherCode(hourlyWeather.hourlyWeatherCode[position])!!
 
             hourTime.text = hourlyWeather.hourlyTime[position].drop(11)
 

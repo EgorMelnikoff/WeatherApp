@@ -10,20 +10,21 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.egormelnikoff.myweather.R
 import com.egormelnikoff.myweather.model.DailyWeather
-import com.egormelnikoff.myweather.model.WeatherParams
+import com.egormelnikoff.myweather.model.WeatherCodes
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import kotlin.math.round
 
 class DailyAdapter(
+    private val weatherCodes: WeatherCodes,
     private val dailyWeather: DailyWeather,
     private val temperature: String?,
     private val context: Context
 ) : RecyclerView.Adapter<DailyAdapter.DailyWeatherViewHolder>() {
 
     inner class DailyWeatherViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val weatherMap = WeatherParams(context).weathersMap
+
         private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
         private val dayDate: TextView = itemView.findViewById(R.id.day_date)
@@ -34,7 +35,7 @@ class DailyAdapter(
 
         @SuppressLint("SetTextI18n")
         fun bind(position: Int) {
-            val weatherData = weatherMap[dailyWeather.dailyWeatherCode[position]]!!
+            val weatherData = weatherCodes.getWeatherDataByWeatherCode(dailyWeather.dailyWeatherCode[position])!!
 
             val date = LocalDate.parse(dailyWeather.dailyTime[position], formatter)
             val dateIndex = date.dayOfWeek.value.minus(1)

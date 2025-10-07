@@ -13,7 +13,7 @@ data class WeatherData(
     val nightBackground: Int
 )
 
-class WeatherParams (context: Context) {
+class WeatherCodes (context: Context) {
     private val clearBackground = R.drawable.clear_background
     private val clearNightBackground = R.drawable.clear_background_night
     private val overcastBackground = R.drawable.overcast_backgroud
@@ -23,8 +23,7 @@ class WeatherParams (context: Context) {
 
     private val clearSky = WeatherData(
         code = 0,
-        title = context
-.getString(R.string.clear_sky),
+        title = context.getString(R.string.clear_sky),
         dayImage = R.drawable.clear,
         nightImage = R.drawable.clear_night,
         dayBackground = clearBackground,
@@ -250,35 +249,38 @@ class WeatherParams (context: Context) {
         dayBackground = overcastBackground,
         nightBackground = overcastNightBackground
     )
-    
-    val weathersMap = mapOf(
-        Pair(clearSky.code, clearSky),
-        Pair(mostlyClear.code, mostlyClear),
-        Pair(partlyCloudy.code, partlyCloudy),
-        Pair(overcast.code, overcast),
-        Pair(fog.code, fog),
-        Pair(icyFog.code, icyFog),
-        Pair(lightDrizzle.code, lightDrizzle),
-        Pair(drizzle.code, drizzle),
-        Pair(heavyDrizzle.code, heavyDrizzle),
-        Pair(lightFreezingDrizzle.code, lightFreezingDrizzle),
-        Pair(freezingDrizzle.code, freezingDrizzle),
-        Pair(lightRain.code, lightRain),
-        Pair(rain.code, rain),
-        Pair(heavyRain.code, heavyRain),
-        Pair(lightFreezingRain.code, lightFreezingRain),
-        Pair(freezingRain.code, freezingRain),
-        Pair(lightSnow.code, lightSnow),
-        Pair(snow.code, snow),
-        Pair(heavySnow.code, heavySnow),
-        Pair(snowGrains.code, snowGrains),
-        Pair(lightRainShower.code, lightRainShower),
-        Pair(rainShower.code, rainShower),
-        Pair(heavyRainShower.code, heavyRainShower),
-        Pair(snowShower.code, snowShower),
-        Pair(heavySnowShower.code, heavySnowShower),
-        Pair(thunderstorm.code, thunderstorm),
-        Pair(hail.code, hail),
-        Pair(heavyHail.code, heavyHail)
+
+    private val weathersList = listOf(
+        clearSky,
+        mostlyClear,
+        partlyCloudy,
+        overcast,
+        fog,
+        icyFog,
+        lightDrizzle,
+        drizzle,
+        heavyDrizzle,
+        lightFreezingDrizzle,
+        freezingDrizzle,
+        lightRain, rain,
+        heavyRain,
+        lightFreezingRain,
+        freezingRain,
+        lightSnow,
+        snow, heavySnow,
+        snowGrains,
+        lightRainShower,
+        rainShower,
+        heavyRainShower,
+        snowShower,
+        heavySnowShower,
+        thunderstorm,
+        hail,
+        heavyHail
     )
+    private val weathersMap = weathersList.associateBy { it.code }
+
+    fun getWeatherDataByWeatherCode (weatherCode: Int): WeatherData? {
+        return weathersMap[weatherCode]
+    }
 }
