@@ -33,25 +33,6 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/panel_background"
-                android:padding="16dp">
-
-                <com.egormelnikoff.myweather.ui.view.SegmentedButtonView
-                    android:id="@+id/theme_preference"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/theme_entries"
-                    android:entryValues="@array/theme_values"
-                    android:icon="@drawable/theme"
-                    android:title="@string/theme" />
-            </FrameLayout>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="16dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
