@@ -1,19 +1,13 @@
-package com.egormelnikoff.myweather.model
+package com.egormelnikoff.myweather.app.model
 
 import android.content.Context
 
 import com.egormelnikoff.myweather.R
+import javax.inject.Inject
 
-data class WeatherData(
-    val code: Int,
-    val title: String,
-    val dayImage: Int,
-    val nightImage: Int? = null,
-    val dayBackground: Int,
-    val nightBackground: Int
-)
-
-class WeatherCodes (context: Context) {
+class WeatherCodes @Inject constructor(
+    context: Context
+) {
     private val clearBackground = R.drawable.clear_background
     private val clearNightBackground = R.drawable.clear_background_night
     private val overcastBackground = R.drawable.overcast_backgroud
@@ -33,7 +27,7 @@ class WeatherCodes (context: Context) {
     private val mostlyClear = WeatherData(
         code = 1,
         title = context
-.getString(R.string.mostly_clear_sky),
+            .getString(R.string.mostly_clear_sky),
         dayImage = R.drawable.mostly_clear,
         nightImage = R.drawable.mostly_clear_night,
         dayBackground = clearBackground,
@@ -43,7 +37,7 @@ class WeatherCodes (context: Context) {
     private val partlyCloudy = WeatherData(
         code = 2,
         title = context
-.getString(R.string.partly_cloudy),
+            .getString(R.string.partly_cloudy),
         dayImage = R.drawable.partly_cloudy,
         nightImage = R.drawable.partly_cloudy_night,
         dayBackground = clearBackground,
@@ -52,7 +46,7 @@ class WeatherCodes (context: Context) {
     private val overcast = WeatherData(
         code = 3,
         title = context
-.getString(R.string.overcast),
+            .getString(R.string.overcast),
         dayImage = R.drawable.overcast,
         dayBackground = overcastBackground,
         nightBackground = overcastNightBackground
@@ -60,7 +54,7 @@ class WeatherCodes (context: Context) {
     private val fog = WeatherData(
         code = 45,
         title = context
-.getString(R.string.fog),
+            .getString(R.string.fog),
         dayImage = R.drawable.fog,
         dayBackground = overcastBackground,
         nightBackground = overcastNightBackground
@@ -68,7 +62,7 @@ class WeatherCodes (context: Context) {
     private val icyFog = WeatherData(
         code = 48,
         title = context
-.getString(R.string.fog),
+            .getString(R.string.fog),
         dayImage = R.drawable.icy_fog,
         dayBackground = overcastBackground,
         nightBackground = overcastNightBackground
@@ -76,7 +70,7 @@ class WeatherCodes (context: Context) {
     private val lightDrizzle = WeatherData(
         code = 51,
         title = context
-.getString(R.string.light_drizzle),
+            .getString(R.string.light_drizzle),
         dayImage = R.drawable.drizzle,
         dayBackground = overcastBackground,
         nightBackground = overcastNightBackground
@@ -84,7 +78,7 @@ class WeatherCodes (context: Context) {
     private val drizzle = WeatherData(
         code = 53,
         title = context
-.getString(R.string.drizzle),
+            .getString(R.string.drizzle),
         dayImage = R.drawable.drizzle,
         dayBackground = overcastBackground,
         nightBackground = overcastNightBackground
@@ -92,7 +86,7 @@ class WeatherCodes (context: Context) {
     private val heavyDrizzle = WeatherData(
         code = 55,
         title = context
-.getString(R.string.heavy_drizzle),
+            .getString(R.string.heavy_drizzle),
         dayImage = R.drawable.drizzle,
         dayBackground = overcastBackground,
         nightBackground = overcastNightBackground
@@ -100,7 +94,7 @@ class WeatherCodes (context: Context) {
     private val lightFreezingDrizzle = WeatherData(
         code = 56,
         title = context
-.getString(R.string.freezing_drizzle),
+            .getString(R.string.freezing_drizzle),
         dayImage = R.drawable.freezing_drizzle,
         dayBackground = overcastBackground,
         nightBackground = overcastNightBackground
@@ -108,7 +102,7 @@ class WeatherCodes (context: Context) {
     private val freezingDrizzle = WeatherData(
         code = 57,
         title = context
-.getString(R.string.freezing_drizzle),
+            .getString(R.string.freezing_drizzle),
         dayImage = R.drawable.freezing_drizzle,
         dayBackground = overcastBackground,
         nightBackground = overcastNightBackground
@@ -116,7 +110,7 @@ class WeatherCodes (context: Context) {
     private val lightRain = WeatherData(
         code = 61,
         title = context
-.getString(R.string.light_rain),
+            .getString(R.string.light_rain),
         dayImage = R.drawable.light_rain,
         dayBackground = overcastBackground,
         nightBackground = overcastNightBackground
@@ -124,7 +118,7 @@ class WeatherCodes (context: Context) {
     private val rain = WeatherData(
         code = 63,
         title = context
-.getString(R.string.rain),
+            .getString(R.string.rain),
         dayImage = R.drawable.rain,
         dayBackground = overcastBackground,
         nightBackground = overcastNightBackground
@@ -132,7 +126,7 @@ class WeatherCodes (context: Context) {
     private val heavyRain = WeatherData(
         code = 65,
         title = context
-.getString(R.string.heavy_rain),
+            .getString(R.string.heavy_rain),
         dayImage = R.drawable.heavy_rain,
         dayBackground = overcastBackground,
         nightBackground = overcastNightBackground
@@ -140,7 +134,7 @@ class WeatherCodes (context: Context) {
     private val lightFreezingRain = WeatherData(
         code = 66,
         title = context
-.getString(R.string.freezing_rain),
+            .getString(R.string.freezing_rain),
         dayImage = R.drawable.freezing_rain,
         dayBackground = overcastBackground,
         nightBackground = overcastNightBackground
@@ -148,7 +142,7 @@ class WeatherCodes (context: Context) {
     private val freezingRain = WeatherData(
         code = 67,
         title = context
-.getString(R.string.freezing_rain),
+            .getString(R.string.freezing_rain),
         dayImage = R.drawable.freezing_rain,
         dayBackground = overcastBackground,
         nightBackground = overcastNightBackground
@@ -156,7 +150,7 @@ class WeatherCodes (context: Context) {
     private val lightSnow = WeatherData(
         code = 71,
         title = context
-.getString(R.string.light_snow),
+            .getString(R.string.light_snow),
         dayImage = R.drawable.light_snow,
         dayBackground = snowBackground,
         nightBackground = snowNightBackground
@@ -164,7 +158,7 @@ class WeatherCodes (context: Context) {
     private val snow = WeatherData(
         code = 73,
         title = context
-.getString(R.string.snow),
+            .getString(R.string.snow),
         dayImage = R.drawable.snow,
         dayBackground = snowBackground,
         nightBackground = snowNightBackground
@@ -172,7 +166,7 @@ class WeatherCodes (context: Context) {
     private val heavySnow = WeatherData(
         code = 75,
         title = context
-.getString(R.string.heavy_snow),
+            .getString(R.string.heavy_snow),
         dayImage = R.drawable.heavy_snow,
         dayBackground = snowBackground,
         nightBackground = snowNightBackground
@@ -180,7 +174,7 @@ class WeatherCodes (context: Context) {
     private val snowGrains = WeatherData(
         code = 77,
         title = context
-.getString(R.string.snow_grains),
+            .getString(R.string.snow_grains),
         dayImage = R.drawable.snow,
         dayBackground = snowBackground,
         nightBackground = snowNightBackground
@@ -188,7 +182,7 @@ class WeatherCodes (context: Context) {
     private val lightRainShower = WeatherData(
         code = 80,
         title = context
-.getString(R.string.light_rain_shower),
+            .getString(R.string.light_rain_shower),
         dayImage = R.drawable.rain_shower,
         dayBackground = overcastBackground,
         nightBackground = overcastNightBackground
@@ -196,7 +190,7 @@ class WeatherCodes (context: Context) {
     private val rainShower = WeatherData(
         code = 81,
         title = context
-.getString(R.string.rain_shower),
+            .getString(R.string.rain_shower),
         dayImage = R.drawable.rain_shower,
         dayBackground = overcastBackground,
         nightBackground = overcastNightBackground
@@ -204,7 +198,7 @@ class WeatherCodes (context: Context) {
     private val heavyRainShower = WeatherData(
         code = 82,
         title = context
-.getString(R.string.heavy_rain_shower),
+            .getString(R.string.heavy_rain_shower),
         dayImage = R.drawable.rain_shower,
         dayBackground = overcastBackground,
         nightBackground = overcastNightBackground
@@ -212,7 +206,7 @@ class WeatherCodes (context: Context) {
     private val snowShower = WeatherData(
         code = 85,
         title = context
-.getString(R.string.snow_shower),
+            .getString(R.string.snow_shower),
         dayImage = R.drawable.snow_shower,
         dayBackground = snowBackground,
         nightBackground = snowNightBackground
@@ -220,7 +214,7 @@ class WeatherCodes (context: Context) {
     private val heavySnowShower = WeatherData(
         code = 86,
         title = context
-.getString(R.string.heavy_snow_shower),
+            .getString(R.string.heavy_snow_shower),
         dayImage = R.drawable.snow_shower,
         dayBackground = snowBackground,
         nightBackground = snowNightBackground
@@ -228,7 +222,7 @@ class WeatherCodes (context: Context) {
     private val thunderstorm = WeatherData(
         code = 95,
         title = context
-.getString(R.string.thunderstorm),
+            .getString(R.string.thunderstorm),
         dayImage = R.drawable.thunderstorm,
         dayBackground = overcastBackground,
         nightBackground = overcastNightBackground
@@ -236,7 +230,7 @@ class WeatherCodes (context: Context) {
     private val hail = WeatherData(
         code = 96,
         title = context
-.getString(R.string.hail),
+            .getString(R.string.hail),
         dayImage = R.drawable.thunderstorm_with_hail,
         dayBackground = overcastBackground,
         nightBackground = overcastNightBackground
@@ -244,7 +238,7 @@ class WeatherCodes (context: Context) {
     private val heavyHail = WeatherData(
         code = 99,
         title = context
-.getString(R.string.heavy_hail),
+            .getString(R.string.heavy_hail),
         dayImage = R.drawable.thunderstorm_with_hail,
         dayBackground = overcastBackground,
         nightBackground = overcastNightBackground
@@ -280,7 +274,7 @@ class WeatherCodes (context: Context) {
     )
     private val weathersMap = weathersList.associateBy { it.code }
 
-    fun getWeatherDataByWeatherCode (weatherCode: Int): WeatherData? {
-        return weathersMap[weatherCode]
+    fun getWeatherDataByWeatherCode(weatherCode: Int): WeatherData {
+        return weathersMap[weatherCode]!!
     }
 }
