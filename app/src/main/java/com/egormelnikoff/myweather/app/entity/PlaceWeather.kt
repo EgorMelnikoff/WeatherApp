@@ -1,9 +1,11 @@
-package com.egormelnikoff.myweather.model
+package com.egormelnikoff.myweather.app.entity
 
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Entity(
     tableName = "PlaceWeather"
@@ -12,13 +14,12 @@ data class PlaceWeather(
     @PrimaryKey(
         autoGenerate = true
     )
-    val id: Long,
-    val isCurrentLocation: Boolean = false,
+    val id: Long = 0,
     val isDefault: Boolean = false,
     @Embedded
     var place: Place,
     @Embedded
-    var weather: Weather?
+    var weather: Weather
 )
 
 data class Place(
@@ -54,7 +55,7 @@ data class Weather(
 
 data class CurrentWeather(
     @SerializedName("time")
-    val currentTime: String,
+    val currentTime: LocalDateTime,
     @SerializedName("temperature_2m")
     val temperature: Double,
     @SerializedName("apparent_temperature")
@@ -77,7 +78,7 @@ data class CurrentWeather(
 
 data class HourlyWeather(
     @SerializedName("time")
-    var hourlyTime: List<String>,
+    var hourlyTime: List<LocalDateTime>,
     @SerializedName("temperature_2m")
     var hourlyTemperature: List<Double>,
     @SerializedName("weather_code")
@@ -86,7 +87,7 @@ data class HourlyWeather(
 
 data class DailyWeather(
     @SerializedName("time")
-    val dailyTime: List<String>,
+    val dailyTime: List<LocalDate>,
     @SerializedName("temperature_2m_max")
     val dailyTemperatureMax: List<Double>,
     @SerializedName("temperature_2m_min")
@@ -94,7 +95,7 @@ data class DailyWeather(
     @SerializedName("weather_code")
     val dailyWeatherCode: List<Int>,
     @SerializedName("sunrise")
-    val dailySunrise: List<String>,
+    val dailySunrise: List<LocalDateTime>,
     @SerializedName("sunset")
-    val dailySunset: List<String>
+    val dailySunset: List<LocalDateTime>
 )
