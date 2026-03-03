@@ -6,9 +6,9 @@
         <item>@string/system</item>
     </string-array>
     <string-array name="theme_values">
-        <item>light</item>
-        <item>dark</item>
-        <item>system</item>
+        <item>LIGHT</item>
+        <item>DARK</item>
+        <item>SYSTEM</item>
     </string-array>
 
 
@@ -17,8 +17,8 @@
         <item>@string/fahrenheit</item>
     </string-array>
     <string-array name="temperature_values">
-        <item>celsius</item>
-        <item>fahrenheit</item>
+        <item>CELSIUS</item>
+        <item>FAHRENHEIT</item>
     </string-array>
 
 
@@ -28,9 +28,9 @@
         <item>@string/miles_per_hour</item>
     </string-array>
     <string-array name="wind_values">
-        <item>meters_per_second</item>
-        <item>kilometers_per_hour</item>
-        <item>miles_per_hour</item>
+        <item>METERS_PER_SECOND</item>
+        <item>KILOMETERS_PER_HOUR</item>
+        <item>MILES_PER_HOUR</item>
     </string-array>
 
     <string-array name="pressure_entries">
@@ -38,7 +38,7 @@
         <item>@string/hPa</item>
     </string-array>
     <string-array name="pressure_values">
-        <item>mm_of_mercury</item>
-        <item>hPa</item>
+        <item>MM_OF_MERCURY</item>
+        <item>HPA</item>
     </string-array>
 </resources>
