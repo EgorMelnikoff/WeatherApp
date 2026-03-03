@@ -1,29 +1,27 @@
 package com.egormelnikoff.myweather
 
 import android.app.Application
-import com.egormelnikoff.myweather.data.datasource.local.AppDatabase
-import com.egormelnikoff.myweather.data.datasource.location.LocationHelper
-import com.egormelnikoff.myweather.data.repos.WeatherRepository
-import com.egormelnikoff.myweather.data.repos.datastore.WeatherDataStore
-import com.egormelnikoff.myweather.data.repos.local.LocalRepos
-import com.egormelnikoff.myweather.data.repos.remote.RemoteRepos
-import com.google.android.gms.location.LocationServices
+import androidx.hilt.work.HiltWorkerFactory
+import androidx.work.Configuration
+import com.egormelnikoff.myweather.app.work.WorkScheduler
+import dagger.hilt.android.HiltAndroidApp
+import javax.inject.Inject
 
-class WeatherApplication : Application() {
-    private val locationClient by lazy {
-        LocationServices.getFusedLocationProviderClient(this)
-    }
+@HiltAndroidApp
+class WeatherApplication : Application(), Configuration.Provider {
+    @Inject
+    lateinit var workerFactory: HiltWorkerFactory
 
-    val repository by lazy {
-        WeatherRepository(
-            localRepos = LocalRepos(AppDatabase.getDatabase(this).dao()),
-            remoteRepos = RemoteRepos(),
-            locationHelper = LocationHelper(locationClient, this)
-        )
-    }
+    @Inject
+    lateinit var workScheduler: WorkScheduler
 
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .build()
 
-    val dataStore by lazy {
-        WeatherDataStore(this)
+    override fun onCreate() {
+        super.onCreate()
+        workScheduler.startPeriodicWeatherUpdating()
     }
 }
