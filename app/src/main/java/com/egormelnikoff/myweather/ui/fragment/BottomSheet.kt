@@ -8,7 +8,7 @@ import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import com.egormelnikoff.myweather.R
-import com.egormelnikoff.myweather.model.Place
+import com.egormelnikoff.myweather.app.entity.Place
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class MyBottomSheetFragment(
@@ -19,6 +19,7 @@ class MyBottomSheetFragment(
 
     private lateinit var radioGroupLocations: RadioGroup
     private lateinit var clearSelectionButton: Button
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

@@ -1,13 +1,16 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.devtoolsKsp)
-    id("kotlin-parcelize")
+    id ("dagger.hilt.android.plugin")
 }
 
 android {
     namespace = "com.egormelnikoff.myweather"
     compileSdk = 36
+
     viewBinding {
         enable = true
     }
@@ -15,8 +18,8 @@ android {
         applicationId = "com.egormelnikoff.myweather"
         minSdk = 26
         targetSdk = 36
-        versionCode = 1
-        versionName = "0.1-alpha"
+        versionCode = 2
+        versionName = "0.2-alpha"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -34,8 +37,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
+    kotlin{
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_11
+        }
     }
 }
 
@@ -50,12 +55,24 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation (libs.androidx.datastore.preferences)
     implementation (libs.gson)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
     implementation (libs.androidx.swiperefreshlayout)
     annotationProcessor(libs.androidx.room.room.compiler)
+
+    implementation (libs.hilt.android)
+    ksp (libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.work)
+    implementation (libs.androidx.hilt.lifecycle.viewmodel )
+    ksp (libs.androidx.hilt.compiler)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation (libs.androidx.work.runtime.ktx)
     implementation (libs.play.services.location)
     implementation (libs.androidx.lifecycle.viewmodel.ktx)
+
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
     ksp(libs.androidx.room.room.compiler)
 }
