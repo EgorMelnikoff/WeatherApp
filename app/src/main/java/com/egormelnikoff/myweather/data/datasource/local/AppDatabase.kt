@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.egormelnikoff.myweather.model.PlaceWeather
+import com.egormelnikoff.myweather.app.entity.PlaceWeather
 
 @Database(
     entities = [
@@ -17,7 +17,7 @@ import com.egormelnikoff.myweather.model.PlaceWeather
 
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun dao(): MyDao
+    abstract fun dao(): WeatherDao
 
     companion object {
         @Volatile

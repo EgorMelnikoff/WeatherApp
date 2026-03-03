@@ -1,56 +1,72 @@
 package com.egormelnikoff.myweather.data.datasource.local
 
 import androidx.room.TypeConverter
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class Converters {
     @TypeConverter
     fun fromListDouble(doubles: List<Double>?): String? {
-        if (doubles == null) {
-            return null
+        return doubles?.let {
+            doubles.joinToString { it.toString() }
         }
-        return doubles.joinToString { it.toString() }
     }
 
     @TypeConverter
     fun toListDouble(doublesString: String?): List<Double>? {
-        if (doublesString == null) {
-            return null
+        return doublesString?.let {
+            doublesString.split(", ").map { it.toDouble() }
         }
-
-        return doublesString.split(", ").map { it.toDouble() }
     }
 
     @TypeConverter
     fun fromListInt(integers: List<Int>?): String? {
-        if (integers == null) {
-            return null
+        return integers?.let {
+            integers.joinToString { it.toString() }
         }
-        return integers.joinToString { it.toString() }
     }
 
     @TypeConverter
     fun toListInt(integersString: String?): List<Int>? {
-        if (integersString == null) {
-            return null
+        return integersString?.let {
+            integersString.split(", ").map { it.toInt() }
         }
-
-        return integersString.split(", ").map { it.toInt() }
     }
 
     @TypeConverter
-    fun fromListString(strings: List<String>?): String? {
-        if (strings == null) {
-            return null
+    fun toLocalDateTimeString(localDateTime: LocalDateTime?): String? {
+        return localDateTime?.let {
+            localDateTime.format(DateTimeFormatter.ISO_DATE_TIME)
         }
-        return strings.joinToString { it }
     }
 
     @TypeConverter
-    fun toListString(stringsString: String?): List<String>? {
-        if (stringsString == null) {
-            return null
+    fun toLocalDateTime(localDateTimeString: String?): LocalDateTime? {
+        return localDateTimeString?.let {
+            LocalDateTime.parse(localDateTimeString, DateTimeFormatter.ISO_DATE_TIME)
         }
+    }
 
-        return stringsString.split(", ")
+    @TypeConverter
+    fun fromListLocalDateTime(list: List<LocalDateTime>): String {
+        return list.joinToString(",") { it.toString() }
+    }
+
+    @TypeConverter
+    fun toListLocalDateTime(data: String): List<LocalDateTime> {
+        return if (data.isBlank()) emptyList()
+        else data.split(",").map { LocalDateTime.parse(it) }
+    }
+
+    @TypeConverter
+    fun fromListLocalDate(list: List<LocalDate>): String {
+        return list.joinToString(",") { it.toString() }
+    }
+
+    @TypeConverter
+    fun toListLocalDate(data: String): List<LocalDate> {
+        return if (data.isBlank()) emptyList()
+        else data.split(",").map { LocalDate.parse(it) }
     }
 }
